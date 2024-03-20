@@ -1,6 +1,8 @@
-package com.clone.whatsapp.presantation
+package com.clone.whatsapp.presantation.activity
 
+import android.content.Intent
 import android.os.Bundle
+import android.os.Handler
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.layout.fillMaxSize
@@ -10,13 +12,20 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
+import com.clone.whatsapp.presantation.SplashActivityTheme
+import com.clone.whatsapp.presantation.WappTheme
 import com.clone.whatsapp.presantation.screens.SplashScreen
 
-class MainActivity : ComponentActivity() {
+class SplashActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
+        Handler(mainLooper).postDelayed({
+            startActivity(Intent(this,MainActivity::class.java))
+            finish()
+        },1000)
         setContent {
-            WappTheme {
+            SplashActivityTheme {
                 // A surface container using the 'background' color from the theme
                 Surface(
                     modifier = Modifier.fillMaxSize(),
@@ -26,21 +35,5 @@ class MainActivity : ComponentActivity() {
                 }
             }
         }
-    }
-}
-
-@Composable
-fun Greeting(name: String, modifier: Modifier = Modifier) {
-    Text(
-        text = "Hello $name!",
-        modifier = modifier
-    )
-}
-
-@Preview(showBackground = true)
-@Composable
-fun GreetingPreview() {
-    WappTheme {
-        Greeting("Android")
     }
 }
