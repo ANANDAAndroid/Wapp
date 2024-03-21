@@ -1,21 +1,30 @@
 package com.clone.whatsapp.presantation.viewmodels
 
-import android.os.Handler
-import android.os.Looper
+
+import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
+import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.launch
+import javax.inject.Inject
 
+@HiltViewModel
+class SplashViewModel @Inject constructor(): ViewModel() {
 
-class SplashViewModel : ViewModel() {
+     val shouldNavigate = mutableStateOf(false)
 
-    private val _shouldNavigate:MutableStateFlow<Boolean> = MutableStateFlow(false)
-     val shouldNavigate:StateFlow<Boolean> = _shouldNavigate.asStateFlow()
+    init {
+        shouldNavigate()
+    }
 
-    fun shouldNavigate() {
-        Handler(Looper.getMainLooper()).postDelayed({
-           _shouldNavigate.value=true
-        }, 1000)
+    private fun shouldNavigate() {
+        viewModelScope.launch {
+            delay(1000)
+            shouldNavigate.value=true
+        }
     }
 }
