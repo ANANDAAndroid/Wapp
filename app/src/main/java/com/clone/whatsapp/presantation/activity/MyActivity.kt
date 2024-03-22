@@ -21,7 +21,7 @@ class MyActivity : ComponentActivity() {
             startActivity(Intent(this,MainActivity::class.java))
             finish()
             overridePendingTransition(0,android.R.anim.fade_in)
-        },100)
+        },500)
         setContent {
             SplashActivityTheme {
                 // A surface container using the 'background' color from the theme

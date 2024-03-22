@@ -9,6 +9,7 @@ import androidx.compose.material3.Surface
 import androidx.compose.ui.Modifier
 import com.clone.whatsapp.presantation.SplashActivityTheme
 import com.clone.whatsapp.presantation.activity.ui.theme.WappTheme
+import com.clone.whatsapp.presantation.screens.PhoneNumberScreen
 import com.clone.whatsapp.presantation.screens.WelcomeScreen
 
 class MainActivity : ComponentActivity() {
@@ -21,7 +22,8 @@ class MainActivity : ComponentActivity() {
                     modifier = Modifier.fillMaxSize(),
                     color = MaterialTheme.colorScheme.background
                 ) {
-                    WelcomeScreen()
+                   // WelcomeScreen()
+                    PhoneNumberScreen()
                 }
             }
         }
