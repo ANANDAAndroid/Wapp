@@ -6,6 +6,6 @@ import androidx.compose.ui.text.font.FontWeight
 import com.clone.whatsapp.R
 
 val RobotoRegular= FontFamily(Font(R.font.roboto_regular, FontWeight.Normal))
-val RobotoLight= FontFamily(Font(R.font.roboto_light, FontWeight.Light))
+val RobotoSemiBold= FontFamily(Font(R.font.roboto_bold, FontWeight.SemiBold))
 val RobotoBold= FontFamily(Font(R.font.roboto_bold, FontWeight.Bold))
 val RobotoMedium= FontFamily(Font(R.font.roboto_medium, FontWeight.Medium))

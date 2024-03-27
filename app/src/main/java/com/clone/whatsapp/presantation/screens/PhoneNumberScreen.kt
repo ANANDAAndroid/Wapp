@@ -53,6 +53,7 @@ import com.clone.whatsapp.domain.utils.Constant.countryList
 import com.clone.whatsapp.presantation.RobotoMedium
 import com.clone.whatsapp.presantation.RobotoRegular
 import com.clone.whatsapp.presantation.TypographyForButton
+import com.clone.whatsapp.presantation.TypographyForButton2
 
 
 @Preview(showSystemUi = true)
@@ -224,7 +225,7 @@ fun PhoneNumberScreen(context: Context = LocalContext.current) {
                 start.linkTo(heading.start)
                 end.linkTo(heading.end)
             }) {
-            Text(text = "NEXT", style = TypographyForButton.labelMedium)
+            Text(text = "NEXT", style = TypographyForButton2.labelMedium)
         }
 
 

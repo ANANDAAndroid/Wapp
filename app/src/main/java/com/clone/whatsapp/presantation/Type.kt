@@ -44,3 +44,11 @@ val TypographyForButton = Typography(
         color = Color.Black
     )
 )
+val TypographyForButton2 = Typography(
+    labelMedium = TextStyle(
+        fontFamily = RobotoSemiBold,
+        fontWeight = FontWeight.SemiBold,
+        fontSize = 14.sp,
+        color = Color.Black
+    )
+)
