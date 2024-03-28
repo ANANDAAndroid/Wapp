@@ -2,7 +2,6 @@ package com.clone.whatsapp.presantation.screens
 
 import android.content.Context
 import android.widget.Toast
-import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.background
 import androidx.compose.foundation.gestures.detectTapGestures
 import androidx.compose.foundation.layout.Spacer
@@ -18,7 +17,6 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.MoreVert
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
-import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.Text
@@ -28,7 +26,6 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.focus.onFocusChanged
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.platform.LocalContext
@@ -46,19 +43,20 @@ import androidx.compose.ui.unit.sp
 import androidx.constraintlayout.compose.ConstraintLayout
 import androidx.constraintlayout.compose.Dimension
 import androidx.core.text.isDigitsOnly
+import androidx.navigation.NavController
+import androidx.navigation.NavHostController
 import com.clone.whatsapp.R
 import com.clone.whatsapp.domain.helper.CustomVisualTransformation
 import com.clone.whatsapp.domain.helper.Dropdown
 import com.clone.whatsapp.domain.utils.Constant.countryList
+import com.clone.whatsapp.domain.utils.Route
 import com.clone.whatsapp.presantation.RobotoMedium
 import com.clone.whatsapp.presantation.RobotoRegular
-import com.clone.whatsapp.presantation.TypographyForButton
 import com.clone.whatsapp.presantation.TypographyForButton2
 
 
-@Preview(showSystemUi = true)
 @Composable
-fun PhoneNumberScreen(context: Context = LocalContext.current) {
+fun PhoneNumberScreen(context: Context = LocalContext.current,navigate:(String)->Unit) {
     val countryList by remember { mutableStateOf(countryList) }
     var phoneNUmber by remember { mutableStateOf("") }
     var countrycode by remember { mutableStateOf(countryList[0].code) }
@@ -212,7 +210,9 @@ fun PhoneNumberScreen(context: Context = LocalContext.current) {
 
         }, fontFamily = RobotoRegular, color = Color.Black, fontSize = 12.sp)
 
-        Button(onClick = { },
+        Button(onClick = {
+            navigate(phoneNUmber)
+        },
             colors = ButtonDefaults.buttonColors(
                 containerColor = colorResource(id = R.color.button_color),
                 contentColor = colorResource(

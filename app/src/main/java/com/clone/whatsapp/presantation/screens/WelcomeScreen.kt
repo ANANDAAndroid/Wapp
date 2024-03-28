@@ -32,16 +32,18 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.constraintlayout.compose.ConstraintLayout
 import androidx.constraintlayout.compose.Dimension
+import androidx.navigation.NavController
 import com.clone.whatsapp.R
+import com.clone.whatsapp.domain.utils.Route
 import com.clone.whatsapp.presantation.RobotoBold
 import com.clone.whatsapp.presantation.RobotoRegular
 import com.clone.whatsapp.presantation.TypographyForButton
 
-@Preview(showSystemUi = true)
+
 @Composable
-fun WelcomeScreen(context: Context = LocalContext.current) {
+fun WelcomeScreen(context: Context = LocalContext.current, navigate: () -> Unit) {
     ConstraintLayout(modifier = Modifier.fillMaxSize()) {
-        val (heading, image, spacer1, spacer2, spanText, button,footer) = createRefs()
+        val (heading, image, spacer1, spacer2, spanText, button, footer) = createRefs()
         val createGuidelineFromTop = createGuidelineFromTop(0.07f)
         val createGuidelineFromTop2 = createGuidelineFromTop(0.7f)
         val createGuidelineFromBottom = createGuidelineFromBottom(0.01f)
@@ -113,19 +115,21 @@ fun WelcomeScreen(context: Context = LocalContext.current) {
                 }
             })
 
-        Button(onClick = { },
+        Button(onClick = {
+            navigate()
+        },
             colors = ButtonDefaults.buttonColors(
                 containerColor = colorResource(id = R.color.button_color),
                 contentColor = colorResource(
                     id = R.color.black
                 )
             ),
-           shape = RoundedCornerShape(5.dp),
+            shape = RoundedCornerShape(5.dp),
             modifier = Modifier.constrainAs(button) {
                 top.linkTo(createGuidelineFromTop2)
                 start.linkTo(heading.start)
                 end.linkTo(heading.end)
-                width= Dimension.fillToConstraints
+                width = Dimension.fillToConstraints
             }) {
             Text(text = "AGREE AND CONTINUE", style = TypographyForButton.labelMedium)
         }
@@ -133,11 +137,13 @@ fun WelcomeScreen(context: Context = LocalContext.current) {
         Column(
             verticalArrangement = Arrangement.Center,
             horizontalAlignment = Alignment.CenterHorizontally,
-            modifier = Modifier.padding(bottom = 50.dp).constrainAs(footer){
-                bottom.linkTo(createGuidelineFromBottom)
-                start.linkTo(parent.start)
-                end.linkTo(parent.end)
-            }
+            modifier = Modifier
+                .padding(bottom = 50.dp)
+                .constrainAs(footer) {
+                    bottom.linkTo(createGuidelineFromBottom)
+                    start.linkTo(parent.start)
+                    end.linkTo(parent.end)
+                }
         ) {
             Text(
                 text = "from",

@@ -9,9 +9,13 @@ import androidx.compose.material3.Surface
 import androidx.compose.ui.Modifier
 import com.clone.whatsapp.presantation.SplashActivityTheme
 import com.clone.whatsapp.presantation.activity.ui.theme.WappTheme
+import com.clone.whatsapp.presantation.navigation.App
+import com.clone.whatsapp.presantation.screens.OTPScreen
 import com.clone.whatsapp.presantation.screens.PhoneNumberScreen
 import com.clone.whatsapp.presantation.screens.WelcomeScreen
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -23,7 +27,9 @@ class MainActivity : ComponentActivity() {
                     color = MaterialTheme.colorScheme.background
                 ) {
                    // WelcomeScreen()
-                    PhoneNumberScreen()
+                   // PhoneNumberScreen()
+                    //OTPScreen()
+                    App()
                 }
             }
         }
