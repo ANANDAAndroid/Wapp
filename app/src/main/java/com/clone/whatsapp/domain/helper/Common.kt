@@ -4,15 +4,16 @@ import androidx.compose.ui.text.AnnotatedString
 import androidx.compose.ui.text.input.OffsetMapping
 import androidx.compose.ui.text.input.TransformedText
 import androidx.compose.ui.text.input.VisualTransformation
+import java.lang.StringBuilder
 
-class CustomVisualTransformation: VisualTransformation {
+class CustomVisualTransformation : VisualTransformation {
     override fun filter(text: AnnotatedString): TransformedText {
         // Make the string XXX-XXX-XXX
         val trimmed = text.text
-        var output=""
+        var output = ""
         for (i in trimmed.indices) {
             output += trimmed[i]
-            if (i% 3 == 2 && i != 8) output +="-"
+            if (i % 3 == 2 && i != 8) output += " "
         }
 
 
@@ -33,14 +34,14 @@ class CustomVisualTransformation: VisualTransformation {
                 // [3 - 5] transformed to [4 - 6] respectively
                 if (offset <= 5) return offset + 1
                 // [6 - 8] transformed to [8 - 10] respectively
-                if (offset <= 9 ) return offset + 2
+                if (offset <= 9) return offset + 2
                 return 12
             }
 
             override fun transformedToOriginal(offset: Int): Int {
 
                 if (offset <= 2) return offset
-                if (offset <= 6) return offset -1
+                if (offset <= 6) return offset - 1
                 if (offset <= 10) return offset - 2
                 return 10
 
@@ -50,8 +51,17 @@ class CustomVisualTransformation: VisualTransformation {
 
         return TransformedText(
             AnnotatedString(output),
-            cameroonNumberTranslator)
+            cameroonNumberTranslator
+        )
 
     }
 
+}
+
+fun String.maskPhoneNumber(): String {
+    val phone = StringBuilder(this)
+    for (i in 2..7) {
+        phone.setCharAt(i, '*')
+    }
+    return phone.toString()
 }

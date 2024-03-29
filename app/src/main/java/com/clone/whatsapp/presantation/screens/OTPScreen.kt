@@ -57,8 +57,7 @@ fun OTPScreen(
 ) {
     val focusManager = LocalFocusManager.current
     val annotatedString = remember { mutableStateOf(AnnotatedString("")) }
-    var verifyEnable by remember { mutableStateOf(false) }
-    val errorShow by remember { mutableStateOf(false) }
+    var showError by remember { mutableStateOf(false) }
     var otp by remember { mutableStateOf("") }
     LaunchedEffect(key1 = viewModel.time) {
         annotatedString.value = context annotatedString viewModel.time
@@ -99,10 +98,15 @@ fun OTPScreen(
             }, verticalArrangement = Arrangement.spacedBy(70.dp),
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
-            Text(text = "Code has been send to +91 $phoneNumber", fontFamily = RobotoRegular, fontSize = 12.sp)
+            Text(text = "Code has been send to $phoneNumber", fontFamily = RobotoRegular, fontSize = 12.sp)
 
             OTPView(value = otp){
                 if (it.length <= 4) otp = it
+                showError=when{
+                    it.isNotBlank() && !it.contentEquals("1234") -> true
+                    else -> {false}
+                }
+
             }
 
             Text(text = annotatedString.value, fontFamily = RobotoRegular, fontSize = 12.sp)
@@ -116,7 +120,7 @@ fun OTPScreen(
                 disabledContainerColor = colorResource(id = R.color.disable_button_color)
             ),
             shape = RoundedCornerShape(50.dp),
-            enabled = verifyEnable,
+            enabled = otp.length==4,
             modifier = Modifier
                 .constrainAs(button) {
                     bottom.linkTo(createGuidelineFromBottom)
@@ -133,15 +137,13 @@ fun OTPScreen(
             )
         }
 
-        if (!otp.contentEquals("1234")){
+        if (showError){
             ErrorView(modifier = Modifier.constrainAs(error){
                 top.linkTo(row.top, margin = 170.dp)
                 start.linkTo(row.start)
                 end.linkTo(row.end)
                 width= Dimension.fillToConstraints
             })
-        }else{
-            verifyEnable=true
         }
 
 

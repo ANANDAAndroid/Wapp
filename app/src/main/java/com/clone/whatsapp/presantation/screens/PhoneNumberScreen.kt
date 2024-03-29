@@ -24,6 +24,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -48,6 +49,7 @@ import androidx.navigation.NavHostController
 import com.clone.whatsapp.R
 import com.clone.whatsapp.domain.helper.CustomVisualTransformation
 import com.clone.whatsapp.domain.helper.Dropdown
+import com.clone.whatsapp.domain.helper.maskPhoneNumber
 import com.clone.whatsapp.domain.utils.Constant.countryList
 import com.clone.whatsapp.domain.utils.Route
 import com.clone.whatsapp.presantation.RobotoMedium
@@ -56,10 +58,10 @@ import com.clone.whatsapp.presantation.TypographyForButton2
 
 
 @Composable
-fun PhoneNumberScreen(context: Context = LocalContext.current,navigate:(String)->Unit) {
-    val countryList by remember { mutableStateOf(countryList) }
-    var phoneNUmber by remember { mutableStateOf("") }
-    var countrycode by remember { mutableStateOf(countryList[0].code) }
+fun PhoneNumberScreen(context: Context = LocalContext.current, navigate: (String) -> Unit) {
+    val countryList by rememberSaveable { mutableStateOf(countryList) }
+    var phoneNUmber by rememberSaveable { mutableStateOf("") }
+    var countrycode by rememberSaveable { mutableStateOf(countryList[0].code) }
     val focusManager = LocalFocusManager.current
     ConstraintLayout(modifier = Modifier
         .fillMaxSize()
@@ -160,7 +162,7 @@ fun PhoneNumberScreen(context: Context = LocalContext.current,navigate:(String)-
                 fontFamily = RobotoRegular,
                 fontSize = 16.sp
             ), visualTransformation = CustomVisualTransformation(),
-            keyboardOptions = KeyboardOptions.Default.copy(keyboardType = KeyboardType.Number))
+            keyboardOptions = KeyboardOptions.Default.copy(keyboardType = KeyboardType.NumberPassword))
 
 
 
@@ -177,7 +179,7 @@ fun PhoneNumberScreen(context: Context = LocalContext.current,navigate:(String)-
             textStyle = TextStyle(
                 textAlign = TextAlign.Center,
                 fontFamily = RobotoRegular,
-                fontSize = 16.sp
+                fontSize = 16.sp,
             )
         )
         Spacer(
@@ -211,7 +213,11 @@ fun PhoneNumberScreen(context: Context = LocalContext.current,navigate:(String)-
         }, fontFamily = RobotoRegular, color = Color.Black, fontSize = 12.sp)
 
         Button(onClick = {
-            navigate(phoneNUmber)
+
+            if (phoneNUmber.length == 10) {
+                navigate("${countrycode.removeRange(1,2)} ${phoneNUmber.maskPhoneNumber()}")
+            }
+
         },
             colors = ButtonDefaults.buttonColors(
                 containerColor = colorResource(id = R.color.button_color),

@@ -12,6 +12,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -32,8 +33,8 @@ fun Dropdown(
     countryList: List<Constant.Country>,
     onItemClick: (String) -> Unit
 ) {
-    var selectedValue by remember { mutableStateOf(countryList[0].name) }
-    var expanded by remember { mutableStateOf(false) }
+    var selectedValue by rememberSaveable { mutableStateOf(countryList[0].name) }
+    var expanded by rememberSaveable { mutableStateOf(false) }
 
     ExposedDropdownMenuBox(modifier = modifier, expanded = expanded, onExpandedChange = {
         expanded = !expanded
@@ -62,7 +63,9 @@ fun Dropdown(
         )
 
         ExposedDropdownMenu(
-            modifier = Modifier.exposedDropdownSize(matchTextFieldWidth = true).fillMaxHeight(0.8f),
+            modifier = Modifier
+                .exposedDropdownSize(matchTextFieldWidth = true)
+                .fillMaxHeight(0.8f),
             expanded = expanded,
             onDismissRequest = { expanded = false }) {
             countryList.forEach { country ->
