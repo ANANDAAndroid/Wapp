@@ -3,33 +3,35 @@ package com.clone.whatsapp.presantation.activity
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.padding
+import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Surface
+import androidx.compose.material3.Text
+import androidx.compose.material3.TopAppBar
+import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.ui.Modifier
-import com.clone.whatsapp.presantation.SplashActivityTheme
-import com.clone.whatsapp.presantation.activity.ui.theme.WappTheme
-import com.clone.whatsapp.presantation.navigation.App
-import com.clone.whatsapp.presantation.screens.OTPScreen
-import com.clone.whatsapp.presantation.screens.PhoneNumberScreen
-import com.clone.whatsapp.presantation.screens.WelcomeScreen
-import dagger.hilt.android.AndroidEntryPoint
+import androidx.compose.ui.graphics.Color
+import com.clone.whatsapp.presantation.SecondaryColor
+import com.clone.whatsapp.presantation.WappTheme
+import com.clone.whatsapp.presantation.screens.ParentScreen
 
-@AndroidEntryPoint
 class MainActivity : ComponentActivity() {
+
+    @OptIn(ExperimentalMaterial3Api::class)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
-            SplashActivityTheme {
+            WappTheme {
                 // A surface container using the 'background' color from the theme
                 Surface(
                     modifier = Modifier.fillMaxSize(),
-                    color = MaterialTheme.colorScheme.background
+                    color = Color.White
                 ) {
-                   // WelcomeScreen()
-                   // PhoneNumberScreen()
-                    //OTPScreen()
-                    App()
+                    ParentScreen()
                 }
             }
         }

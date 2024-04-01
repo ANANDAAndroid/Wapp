@@ -1,8 +1,6 @@
 package com.clone.whatsapp.presantation.activity
 
-import android.content.Intent
 import android.os.Bundle
-import android.os.Handler
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.layout.fillMaxSize
@@ -10,17 +8,13 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.ui.Modifier
 import com.clone.whatsapp.presantation.SplashActivityTheme
-import com.clone.whatsapp.presantation.screens.SplashScreen
+import com.clone.whatsapp.presantation.navigation.App
+import dagger.hilt.android.AndroidEntryPoint
 
-class MyActivity : ComponentActivity() {
+@AndroidEntryPoint
+class AuthActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
-        Handler(mainLooper).postDelayed({
-            startActivity(Intent(this,AuthActivity::class.java))
-            finish()
-            overridePendingTransition(0,android.R.anim.fade_in)
-        },500)
         setContent {
             SplashActivityTheme {
                 // A surface container using the 'background' color from the theme
@@ -28,9 +22,10 @@ class MyActivity : ComponentActivity() {
                     modifier = Modifier.fillMaxSize(),
                     color = MaterialTheme.colorScheme.background
                 ) {
-                    SplashScreen()
+                    App()
                 }
             }
         }
     }
 }
+

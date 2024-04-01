@@ -5,6 +5,18 @@
       <entry key="App">
         <State />
       </entry>
+      <entry key="Loader">
+        <State />
+      </entry>
+      <entry key="MainActivity">
+        <State />
+      </entry>
+      <entry key="NoChatScreen">
+        <State />
+      </entry>
+      <entry key="ParentScreen">
+        <State />
+      </entry>
       <entry key="app">
         <State />
       </entry>

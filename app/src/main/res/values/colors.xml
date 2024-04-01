@@ -15,4 +15,5 @@
     <color name="disable_button_color">#66000000</color>
     <color name="error_bg_color">#F8DADA</color>
     <color name="error_text_color">#DA1414</color>
+    <color name="no_chat_image_color">#0CCC83</color>
 </resources>

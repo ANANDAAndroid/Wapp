@@ -21,9 +21,9 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
@@ -38,31 +38,49 @@ import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.withStyle
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.constraintlayout.compose.ConstraintLayout
 import androidx.constraintlayout.compose.Dimension
 import androidx.core.text.isDigitsOnly
-import androidx.navigation.NavController
-import androidx.navigation.NavHostController
+import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.clone.whatsapp.R
 import com.clone.whatsapp.domain.helper.CustomVisualTransformation
 import com.clone.whatsapp.domain.helper.Dropdown
+import com.clone.whatsapp.domain.helper.Loader
 import com.clone.whatsapp.domain.helper.maskPhoneNumber
 import com.clone.whatsapp.domain.utils.Constant.countryList
-import com.clone.whatsapp.domain.utils.Route
 import com.clone.whatsapp.presantation.RobotoMedium
 import com.clone.whatsapp.presantation.RobotoRegular
 import com.clone.whatsapp.presantation.TypographyForButton2
+import com.clone.whatsapp.presantation.viewmodels.PhoneNumberScreenViewModel
 
 
 @Composable
-fun PhoneNumberScreen(context: Context = LocalContext.current, navigate: (String) -> Unit) {
+fun PhoneNumberScreen(
+    context: Context = LocalContext.current,
+    viewModel: PhoneNumberScreenViewModel = hiltViewModel(),
+    navigate: (String) -> Unit
+) {
     val countryList by rememberSaveable { mutableStateOf(countryList) }
     var phoneNUmber by rememberSaveable { mutableStateOf("") }
-    var countrycode by rememberSaveable { mutableStateOf(countryList[0].code) }
+    var countryCode by rememberSaveable { mutableStateOf(countryList[0].code) }
+    var hasNavigate by rememberSaveable { mutableStateOf(false) }
     val focusManager = LocalFocusManager.current
+    val isLoading = viewModel.isLoading.collectAsStateWithLifecycle().value
+
+    if (isLoading) {
+        Loader()
+    }
+    LaunchedEffect(key1 = isLoading) {
+        if (!isLoading && phoneNUmber.length == 10 && !hasNavigate) {
+            navigate("${countryCode.removeRange(1, 2)} ${phoneNUmber.maskPhoneNumber()}")
+            hasNavigate = true
+        }
+    }
+
+
     ConstraintLayout(modifier = Modifier
         .fillMaxSize()
         .pointerInput(Unit) {
@@ -129,7 +147,7 @@ fun PhoneNumberScreen(context: Context = LocalContext.current, navigate: (String
                 width = Dimension.fillToConstraints
             }
             .padding(top = 50.dp), countryList = countryList) {
-            countrycode = it
+            countryCode = it
         }
 
         Spacer(
@@ -167,7 +185,7 @@ fun PhoneNumberScreen(context: Context = LocalContext.current, navigate: (String
 
 
         BasicTextField(
-            value = countrycode, onValueChange = {}, modifier = Modifier
+            value = countryCode, onValueChange = {}, modifier = Modifier
                 .constrainAs(code) {
                     top.linkTo(number.top)
                     bottom.linkTo(number.bottom)
@@ -215,7 +233,8 @@ fun PhoneNumberScreen(context: Context = LocalContext.current, navigate: (String
         Button(onClick = {
 
             if (phoneNUmber.length == 10) {
-                navigate("${countrycode.removeRange(1,2)} ${phoneNUmber.maskPhoneNumber()}")
+                viewModel.getLoading()
+                hasNavigate = false
             }
 
         },

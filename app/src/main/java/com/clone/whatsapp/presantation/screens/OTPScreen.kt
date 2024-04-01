@@ -37,13 +37,12 @@ import androidx.compose.ui.unit.sp
 import androidx.constraintlayout.compose.ConstraintLayout
 import androidx.constraintlayout.compose.Dimension
 import androidx.hilt.navigation.compose.hiltViewModel
-import androidx.navigation.NavController
-import androidx.navigation.NavHostController
 import com.clone.whatsapp.R
 import com.clone.whatsapp.domain.helper.OTPView
 import com.clone.whatsapp.domain.utils.annotatedString
 import com.clone.whatsapp.presantation.RobotoMedium
 import com.clone.whatsapp.presantation.RobotoRegular
+import com.clone.whatsapp.presantation.activity.AuthActivity
 import com.clone.whatsapp.presantation.viewmodels.OtpScreenViewModel
 
 
@@ -52,8 +51,8 @@ fun OTPScreen(
     phoneNumber: String?,
     viewModel: OtpScreenViewModel = hiltViewModel(),
     context: Context = LocalContext.current,
-    onBack:()->Unit,
-    navigate:()->Unit
+    onBack: () -> Unit,
+    navigate: () -> Unit
 ) {
     val focusManager = LocalFocusManager.current
     val annotatedString = remember { mutableStateOf(AnnotatedString("")) }
@@ -71,11 +70,11 @@ fun OTPScreen(
             })
         }) {
 
-        val (arrow, heading, row, button,error) = createRefs()
+        val (arrow, heading, row, button, error) = createRefs()
         val createGuideLine = createGuidelineFromTop(0.02f)
         val createGuidelineFromBottom = createGuidelineFromBottom(0.1f)
 
-        IconButton(onClick = {onBack() }, modifier = Modifier.constrainAs(arrow) {
+        IconButton(onClick = { onBack() }, modifier = Modifier.constrainAs(arrow) {
             top.linkTo(createGuideLine)
             start.linkTo(parent.start, margin = 10.dp)
         }) {
@@ -98,13 +97,19 @@ fun OTPScreen(
             }, verticalArrangement = Arrangement.spacedBy(70.dp),
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
-            Text(text = "Code has been send to $phoneNumber", fontFamily = RobotoRegular, fontSize = 12.sp)
+            Text(
+                text = "Code has been send to $phoneNumber",
+                fontFamily = RobotoRegular,
+                fontSize = 12.sp
+            )
 
-            OTPView(value = otp){
-                if (it.length <= 4) otp = it
-                showError=when{
+            OTPView(value = otp) {
+                if (it.length < 5) otp = it
+                showError = when {
                     it.isNotBlank() && !it.contentEquals("1234") -> true
-                    else -> {false}
+                    else -> {
+                        false
+                    }
                 }
 
             }
@@ -113,14 +118,17 @@ fun OTPScreen(
 
 
         }
-        Button(onClick = { },
+        Button(onClick = {
+            navigate()
+            (context as AuthActivity).finish()
+        },
             colors = ButtonDefaults.buttonColors(
                 containerColor = Color.Black,
                 contentColor = Color.White,
                 disabledContainerColor = colorResource(id = R.color.disable_button_color)
             ),
             shape = RoundedCornerShape(50.dp),
-            enabled = otp.length==4,
+            enabled = otp.length == 4,
             modifier = Modifier
                 .constrainAs(button) {
                     bottom.linkTo(createGuidelineFromBottom)
@@ -137,17 +145,14 @@ fun OTPScreen(
             )
         }
 
-        if (showError){
-            ErrorView(modifier = Modifier.constrainAs(error){
+        if (showError) {
+            ErrorView(modifier = Modifier.constrainAs(error) {
                 top.linkTo(row.top, margin = 170.dp)
                 start.linkTo(row.start)
                 end.linkTo(row.end)
-                width= Dimension.fillToConstraints
+                width = Dimension.fillToConstraints
             })
         }
-
-
-
 
 
     }
@@ -163,10 +168,14 @@ fun ErrorView(modifier: Modifier = Modifier) {
                 color = colorResource(id = R.color.error_bg_color),
                 shape = RoundedCornerShape(20.dp)
             )
-            .padding( horizontal = 5.dp),
+            .padding(horizontal = 5.dp),
         verticalAlignment = Alignment.CenterVertically
     ) {
-        Icon(painter = painterResource(id = R.drawable.error), contentDescription = "error", tint = Color.Red)
+        Icon(
+            painter = painterResource(id = R.drawable.error),
+            contentDescription = "error",
+            tint = Color.Red
+        )
         Text(
             text = "Invalid password",
             color = colorResource(id = R.color.error_text_color),

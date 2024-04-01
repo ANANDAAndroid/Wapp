@@ -25,13 +25,10 @@ class OtpScreenViewModel @Inject constructor() : ViewModel() {
             object : CountDownTimer(1000 * 60, 1000) {
                 override fun onTick(p0: Long) {
                     time=String.format("%02d", p0 / 1000)
-
                 }
-
                 override fun onFinish() {
                     cancel()
                 }
-
             }.start()
 
         }

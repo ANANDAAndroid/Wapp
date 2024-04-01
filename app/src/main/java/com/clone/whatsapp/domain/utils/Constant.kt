@@ -1,10 +1,14 @@
 package com.clone.whatsapp.domain.utils
 
+import android.os.Parcelable
+import kotlinx.parcelize.Parcelize
+
 object Constant {
+    @Parcelize
     data class Country(
         val name: String,
         val code: String
-    )
+    ):Parcelable
 
     val countryList = listOf(
         Country("United States", "+ 1"),
