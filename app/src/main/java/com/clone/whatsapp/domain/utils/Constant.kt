@@ -8,7 +8,7 @@ object Constant {
     data class Country(
         val name: String,
         val code: String
-    ):Parcelable
+    ) : Parcelable
 
     val countryList = listOf(
         Country("United States", "+ 1"),
@@ -31,5 +31,12 @@ object Constant {
         Country("Switzerland", "+ 41"),
         Country("Norway", "+ 47"),
         Country("Denmark", "+ 45")
+    )
+
+    data class TabText(val title: String)
+
+    val tabList = listOf(
+        TabText(title = "CHATS"), TabText(title = "STATUS"),
+        TabText(title = "CALLS")
     )
 }

@@ -28,11 +28,11 @@ import com.clone.whatsapp.presantation.RobotoSemiBold
 
 @Preview(showSystemUi = true)
 @Composable
-private fun NoChatScreen() {
+ fun NoChatScreen() {
     ConstraintLayout(modifier = Modifier.fillMaxSize()) {
 
         val (image, button, text) = createRefs()
-        val createGuidelineFromTop = createGuidelineFromTop(0.35f)
+        val createGuidelineFromTop = createGuidelineFromTop(0.32f)
         val createGuidelineFromBottom = createGuidelineFromBottom(0.25f)
         Image(
             painter = painterResource(id = R.drawable.no_chat_background),
@@ -46,7 +46,7 @@ private fun NoChatScreen() {
                     color = colorResource(id = R.color.no_chat_image_color),
                     shape = RoundedCornerShape(20.dp)
                 )
-                .padding(20.dp)
+                .padding(16.dp)
                 .constrainAs(image) {
                     top.linkTo(createGuidelineFromTop)
                     start.linkTo(parent.start)
@@ -80,7 +80,7 @@ private fun NoChatScreen() {
                 text = "Start Chatting",
                 fontFamily = RobotoSemiBold,
                 fontWeight = FontWeight.SemiBold,
-                fontSize = 20.sp,
+                fontSize = 16.sp,
                 modifier = Modifier.padding(vertical = 5.dp)
             )
         }
@@ -89,9 +89,9 @@ private fun NoChatScreen() {
             text = "You haven’t chat yet",
             fontFamily = RobotoMedium,
             fontWeight = FontWeight.Medium,
-            fontSize = 30.sp,
+            fontSize = 22.sp,
             modifier = Modifier.constrainAs(text) {
-                bottom.linkTo(button.top, margin = 40.dp)
+                bottom.linkTo(button.top, margin = 20.dp)
                 start.linkTo(parent.start)
                 end.linkTo(parent.end)
             }
