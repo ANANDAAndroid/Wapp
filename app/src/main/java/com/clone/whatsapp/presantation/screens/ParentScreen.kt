@@ -10,6 +10,7 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.foundation.pager.HorizontalPager
 import androidx.compose.foundation.pager.rememberPagerState
 import androidx.compose.foundation.shape.CircleShape
@@ -76,7 +77,7 @@ fun ParentScreen() {
             fontSize = 20.sp,
             modifier = Modifier.constrainAs(title) {
                 start.linkTo(topBar.start, margin = 20.dp)
-                bottom.linkTo(topBar.bottom, margin = 3.dp)
+                bottom.linkTo(topBar.bottom, margin = 8.dp)
             }
         )
         IconButton(onClick = { }, modifier = Modifier.constrainAs(iconMenu) {
@@ -255,7 +256,7 @@ fun ParentScreen() {
             }) {
 
             when (it) {
-                0 -> NoChatScreen()
+                0 -> ChatScreen()
                 1 -> StatusScreen()
                 2 -> CallScreen()
             }

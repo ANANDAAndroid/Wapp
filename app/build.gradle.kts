@@ -88,6 +88,9 @@ dependencies {
     //navigation
     implementation(libs.androidx.navigation)
 
+    //Glide
+    implementation(libs.com.github.bumptech.glide)
+
 
 
 }

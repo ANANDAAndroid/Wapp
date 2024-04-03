@@ -14,6 +14,7 @@ ksp="1.9.22-1.0.18"
 androidx-hilt="1.2.0"
 constraintlayout-compose="1.0.1"
 nav_version="2.7.7"
+glide_version="1.0.0-beta01"
 
 
 [libraries]
@@ -41,6 +42,7 @@ dagger-hilt-compiler = { group = "com.google.dagger", name = "hilt-android-compi
 androidx-hilt = { group = "androidx.hilt", name = "hilt-navigation-compose" ,version.ref= "androidx-hilt" }
 androidx-constraintlayout = { group = "androidx.constraintlayout", name = "constraintlayout-compose" ,version.ref= "constraintlayout-compose" }
 androidx-navigation = { group = "androidx.navigation", name = "navigation-compose" ,version.ref= "nav_version" }
+com-github-bumptech-glide = { group = "com.github.bumptech.glide", name = "compose" ,version.ref= "glide_version" }
 
 [plugins]
 androidApplication = { id = "com.android.application", version.ref = "agp" }

@@ -17,4 +17,6 @@
     <color name="error_text_color">#DA1414</color>
     <color name="no_chat_image_color">#0CCC83</color>
     <color name="chat_count_color">#598E80</color>
+    <color name="unread_message_count_bg_color">#036A01</color>
+    <color name="message_color">#889095</color>
 </resources>

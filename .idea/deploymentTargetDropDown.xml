@@ -2,10 +2,10 @@
 <project version="4">
   <component name="deploymentTargetDropDown">
     <value>
-      <entry key="App">
+      <entry key="ChatContactItem">
         <State />
       </entry>
-      <entry key="Loader">
+      <entry key="ChatScreen">
         <State />
       </entry>
       <entry key="MainActivity">
