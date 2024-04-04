@@ -19,4 +19,6 @@
     <color name="chat_count_color">#598E80</color>
     <color name="unread_message_count_bg_color">#036A01</color>
     <color name="message_color">#889095</color>
+    <color name="tap_to_add_status_color">#7E898F</color>
+    <color name="status_category_text_color">#515152</color>
 </resources>

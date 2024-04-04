@@ -4,7 +4,10 @@ import androidx.compose.ui.text.AnnotatedString
 import androidx.compose.ui.text.input.OffsetMapping
 import androidx.compose.ui.text.input.TransformedText
 import androidx.compose.ui.text.input.VisualTransformation
-import java.lang.StringBuilder
+import java.text.SimpleDateFormat
+import java.time.temporal.ChronoUnit
+import java.util.Date
+import java.util.Locale
 
 class CustomVisualTransformation : VisualTransformation {
     override fun filter(text: AnnotatedString): TransformedText {
@@ -64,4 +67,25 @@ fun String.maskPhoneNumber(): String {
         phone.setCharAt(i, '*')
     }
     return phone.toString()
+}
+
+fun getTime(): String {
+    return SimpleDateFormat("h:mm a", Locale.getDefault()).format(Date())
+}
+
+fun getDate(): String {
+    return SimpleDateFormat("d/MM/yyyy", Locale.getDefault()).format(Date())
+}
+
+fun String.compareDate(): Int {
+    val sdf = SimpleDateFormat("d/MM/yyyy", Locale.getDefault())
+    val date = sdf.parse(this)
+    val todayDate = sdf.parse(SimpleDateFormat("d/MM/yyyy", Locale.getDefault()).format(Date()))
+    return todayDate?.let { date1 ->
+        date?.let { date2 ->
+            ChronoUnit.DAYS.between(date2.toInstant(), date1.toInstant()).toInt()
+        }
+    } ?: 0
+
+
 }
