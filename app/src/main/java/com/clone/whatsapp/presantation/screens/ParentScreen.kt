@@ -2,6 +2,7 @@ package com.clone.whatsapp.presantation.screens
 
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.background
+import androidx.compose.foundation.gestures.detectTapGestures
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Row
@@ -10,7 +11,6 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.foundation.pager.HorizontalPager
 import androidx.compose.foundation.pager.rememberPagerState
 import androidx.compose.foundation.shape.CircleShape
@@ -31,21 +31,27 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.input.pointer.pointerInput
+import androidx.compose.ui.layout.onSizeChanged
+import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.PlatformTextStyle
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.DpOffset
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.constraintlayout.compose.ConstraintLayout
 import androidx.constraintlayout.compose.Dimension
 import com.clone.whatsapp.R
+import com.clone.whatsapp.domain.helper.ContextMenu
 import com.clone.whatsapp.domain.utils.Constant.tabList
 import com.clone.whatsapp.presantation.RobotoBold
 import com.clone.whatsapp.presantation.SecondaryColor
@@ -56,11 +62,24 @@ import com.clone.whatsapp.presantation.SecondaryColor
 @Composable
 fun ParentScreen() {
 
+    var pressOffset by remember { mutableStateOf(DpOffset.Zero) }
+    var expanded by rememberSaveable { mutableStateOf(false) }
     var selectedTab by remember { mutableIntStateOf(0) }
     val tabsPadding by remember { mutableStateOf(12.dp) }
     val pagerState = rememberPagerState { tabList.size }
-    ConstraintLayout(modifier = Modifier.fillMaxSize()) {
+    val density = LocalDensity.current
+    var height2 by remember { mutableStateOf(0.dp) }
 
+    ConstraintLayout(modifier = Modifier
+        .fillMaxSize()
+        .onSizeChanged {
+            height2 = with(density) {
+                it.height.toDp()
+            }
+        }) {
+        ContextMenu(isExpanded = expanded, dpOffset = pressOffset, height = height2) {
+            expanded = false
+        }
         val (topBar, title, iconMenu, iconSearch, tab, camera, pager) = createRefs()
         Box(modifier = Modifier
             .fillMaxWidth()
@@ -80,11 +99,21 @@ fun ParentScreen() {
                 bottom.linkTo(topBar.bottom, margin = 8.dp)
             }
         )
-        IconButton(onClick = { }, modifier = Modifier.constrainAs(iconMenu) {
-            end.linkTo(topBar.end)
-            top.linkTo(title.top)
-            bottom.linkTo(title.bottom)
-        }) {
+        IconButton(onClick = {
+
+            expanded = !expanded
+
+        }, modifier = Modifier
+            .constrainAs(iconMenu) {
+                end.linkTo(topBar.end)
+                top.linkTo(title.top)
+                bottom.linkTo(title.bottom)
+            }
+            .pointerInput(key1 = true) {
+                detectTapGestures(onPress = {
+                    pressOffset = DpOffset(it.x.toDp(), it.y.toDp())
+                })
+            }) {
             Icon(
                 imageVector = Icons.Filled.MoreVert,
                 contentDescription = "menu",

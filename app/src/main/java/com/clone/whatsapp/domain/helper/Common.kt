@@ -69,8 +69,8 @@ fun String.maskPhoneNumber(): String {
     return phone.toString()
 }
 
-fun getTime(): String {
-    return SimpleDateFormat("h:mm a", Locale.getDefault()).format(Date())
+fun Date.get_Time(): String {
+    return SimpleDateFormat("h:mm a", Locale.getDefault()).format(this)
 }
 
 fun getDate(): String {
@@ -86,6 +86,26 @@ fun String.compareDate(): Int {
             ChronoUnit.DAYS.between(date2.toInstant(), date1.toInstant()).toInt()
         }
     } ?: 0
+}
 
-
+fun String.compareDate2(): Int {
+    println(Date())
+    val sdf = SimpleDateFormat("EEE MMM dd HH:mm:ss 'GMT'Z yyyy", Locale.getDefault())
+    val date = sdf.parse(this)
+    val todayDate = sdf.parse(SimpleDateFormat("EEE MMM dd HH:mm:ss 'GMT'Z yyyy", Locale.getDefault()).format(Date()))
+    return todayDate?.let { date1 ->
+        date?.let { date2 ->
+            ChronoUnit.MINUTES.between(date2.toInstant(), date1.toInstant()).toInt()
+        }
+    } ?: 0
+}
+fun String.getTime2(): String {
+    val sdf = SimpleDateFormat("EEE MMM dd HH:mm:ss 'GMT'Z yyyy", Locale.getDefault())
+    val date = sdf.parse(this)
+    return date?.get_Time() ?:""
+}
+fun String.getMonth(): String? {
+    val sdf = SimpleDateFormat("EEE MMM dd HH:mm:ss 'GMT'Z yyyy", Locale.getDefault())
+    val date = sdf.parse(this)
+    return date?.let { SimpleDateFormat("MMMM dd", Locale.getDefault()).format(it) }
 }

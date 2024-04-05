@@ -41,6 +41,11 @@ import com.bumptech.glide.integration.compose.ExperimentalGlideComposeApi
 import com.bumptech.glide.integration.compose.GlideImage
 import com.bumptech.glide.integration.compose.placeholder
 import com.clone.whatsapp.R
+import com.clone.whatsapp.data.model.StatusModel
+import com.clone.whatsapp.data.model.StatusModel.Companion.statusContactList
+import com.clone.whatsapp.domain.helper.compareDate2
+import com.clone.whatsapp.domain.helper.getTime2
+import com.clone.whatsapp.presantation.RecentStatusBgColor
 import com.clone.whatsapp.presantation.RobotoBold
 import com.clone.whatsapp.presantation.RobotoRegular
 import com.clone.whatsapp.presantation.SecondaryColor
@@ -63,15 +68,15 @@ fun StatusScreen() {
             MyStatus()
             StatusList(
                 modifier = Modifier.padding(top = 15.dp),
-                statusCount = 5,
                 typeOfStatus = "Recent updates",
-                borderColor = SecondaryColor
+                borderColor = RecentStatusBgColor,
+                statusContactList = statusContactList
             )
             StatusList(
                 modifier = Modifier.padding(top = 15.dp),
-                statusCount = 3,
                 typeOfStatus = "Viewed updates",
-                borderColor = ViewedStatusBgColor
+                borderColor = ViewedStatusBgColor,
+                statusContactList = statusContactList
             )
         }
 
@@ -122,9 +127,9 @@ fun StatusScreen() {
 @Composable
 private fun StatusList(
     modifier: Modifier = Modifier,
-    statusCount: Int,
     typeOfStatus: String,
-    borderColor: Color
+    borderColor: Color,
+    statusContactList: List<StatusModel.StatusContactDetails>
 ) {
     Column(modifier = modifier.fillMaxWidth()) {
         Text(
@@ -139,9 +144,26 @@ private fun StatusList(
             style = TextStyle(platformStyle = PlatformTextStyle(includeFontPadding = false))
         )
 
-        repeat(statusCount) {
-            StatusContact(borderColor = borderColor)
+        repeat(statusContactList.size) {
+
+            when {
+                !statusContactList[it].view && typeOfStatus.contentEquals("Recent updates") -> {
+                    StatusContact(
+                        borderColor = borderColor,
+                        statusContactDetails = statusContactList[it]
+                    )
+                }
+
+                statusContactList[it].view && typeOfStatus.contentEquals("Viewed updates") -> {
+                    StatusContact(
+                        borderColor = borderColor,
+                        statusContactDetails = statusContactList[it]
+                    )
+                }
+            }
         }
+
+
     }
 }
 
@@ -229,12 +251,12 @@ private fun MyStatus(
 }
 
 @OptIn(ExperimentalGlideComposeApi::class)
-@Preview(showBackground = true)
 @Composable
 private fun StatusContact(
     modifier: Modifier = Modifier,
     verticalPadding: Dp = 15.dp,
-    borderColor: Color = SecondaryColor
+    borderColor: Color = RecentStatusBgColor,
+    statusContactDetails: StatusModel.StatusContactDetails
 ) {
 
     ConstraintLayout(modifier = modifier) {
@@ -246,7 +268,7 @@ private fun StatusContact(
                 top.linkTo(parent.top)
             })
         GlideImage(
-            model = "https://cdn.pixabay.com/photo/2016/11/29/06/08/woman-1867715_640.jpg",
+            model = statusContactDetails.profilePicture,
             contentDescription = "",
             modifier = Modifier
                 .size(50.dp)
@@ -262,7 +284,7 @@ private fun StatusContact(
             loading = placeholder(androidx.core.R.color.notification_icon_bg_color)
         )
         Text(
-            text = "Abelson", modifier = Modifier.constrainAs(title) {
+            text = statusContactDetails.name, modifier = Modifier.constrainAs(title) {
                 top.linkTo(image.top, margin = 6.dp)
                 start.linkTo(image.end, margin = 10.dp)
             }, fontFamily = RobotoBold, fontWeight = FontWeight.Bold, fontSize = 16.sp,
@@ -271,7 +293,13 @@ private fun StatusContact(
 
 
         Text(
-            text = "10 minutes ago",
+            text = when {
+                statusContactDetails.date.compareDate2() < 11 -> "${statusContactDetails.date.compareDate2()} minutes ago"
+                statusContactDetails.date.compareDate2() in 11..1440 -> "Today, ${statusContactDetails.date.getTime2()}"
+                else -> {
+                    "Yesterday, ${statusContactDetails.date.getTime2()}"
+                }
+            },
             overflow = TextOverflow.Visible,
             maxLines = 1,
             modifier = Modifier.constrainAs(message) {
