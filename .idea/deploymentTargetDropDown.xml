@@ -11,10 +11,10 @@
       <entry key="MainActivity">
         <State />
       </entry>
-      <entry key="NoChatScreen">
+      <entry key="ParentScreen">
         <State />
       </entry>
-      <entry key="ParentScreen">
+      <entry key="StarredMessage">
         <State />
       </entry>
       <entry key="app">

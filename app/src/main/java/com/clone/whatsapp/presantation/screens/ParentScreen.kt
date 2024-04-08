@@ -2,7 +2,6 @@ package com.clone.whatsapp.presantation.screens
 
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.background
-import androidx.compose.foundation.gestures.detectTapGestures
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Row
@@ -36,7 +35,6 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.layout.onSizeChanged
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.res.colorResource
@@ -45,13 +43,15 @@ import androidx.compose.ui.text.PlatformTextStyle
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
-import androidx.compose.ui.unit.DpOffset
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.constraintlayout.compose.ConstraintLayout
 import androidx.constraintlayout.compose.Dimension
 import com.clone.whatsapp.R
 import com.clone.whatsapp.domain.helper.ContextMenu
+import com.clone.whatsapp.domain.utils.Constant.menuListCall
+import com.clone.whatsapp.domain.utils.Constant.menuListChat
+import com.clone.whatsapp.domain.utils.Constant.menuListStatus
 import com.clone.whatsapp.domain.utils.Constant.tabList
 import com.clone.whatsapp.presantation.RobotoBold
 import com.clone.whatsapp.presantation.SecondaryColor
@@ -62,24 +62,26 @@ import com.clone.whatsapp.presantation.SecondaryColor
 @Composable
 fun ParentScreen() {
 
-    var pressOffset by remember { mutableStateOf(DpOffset.Zero) }
+
     var expanded by rememberSaveable { mutableStateOf(false) }
     var selectedTab by remember { mutableIntStateOf(0) }
     val tabsPadding by remember { mutableStateOf(12.dp) }
     val pagerState = rememberPagerState { tabList.size }
     val density = LocalDensity.current
-    var height2 by remember { mutableStateOf(0.dp) }
+    var heightOffset by remember { mutableStateOf(0.dp) }
+    var widthOffset by remember { mutableStateOf(0.dp) }
+
+
+
 
     ConstraintLayout(modifier = Modifier
         .fillMaxSize()
         .onSizeChanged {
-            height2 = with(density) {
-                it.height.toDp()
-            }
-        }) {
-        ContextMenu(isExpanded = expanded, dpOffset = pressOffset, height = height2) {
-            expanded = false
+            heightOffset = with(density) { it.height.toDp() }
+            widthOffset = with(density) { it.width.toDp() }
         }
+    ) {
+
         val (topBar, title, iconMenu, iconSearch, tab, camera, pager) = createRefs()
         Box(modifier = Modifier
             .fillMaxWidth()
@@ -99,21 +101,15 @@ fun ParentScreen() {
                 bottom.linkTo(topBar.bottom, margin = 8.dp)
             }
         )
-        IconButton(onClick = {
-
-            expanded = !expanded
-
-        }, modifier = Modifier
-            .constrainAs(iconMenu) {
-                end.linkTo(topBar.end)
-                top.linkTo(title.top)
-                bottom.linkTo(title.bottom)
-            }
-            .pointerInput(key1 = true) {
-                detectTapGestures(onPress = {
-                    pressOffset = DpOffset(it.x.toDp(), it.y.toDp())
-                })
-            }) {
+        IconButton(
+            onClick = {
+                expanded = true
+            }, modifier = Modifier
+                .constrainAs(iconMenu) {
+                    end.linkTo(topBar.end)
+                    top.linkTo(title.top)
+                    bottom.linkTo(title.bottom)
+                }) {
             Icon(
                 imageVector = Icons.Filled.MoreVert,
                 contentDescription = "menu",
@@ -285,9 +281,18 @@ fun ParentScreen() {
             }) {
 
             when (it) {
-                0 -> ChatScreen()
-                1 -> StatusScreen()
-                2 -> CallScreen()
+                0 -> {
+
+                    ChatScreen()
+                }
+
+                1 -> {
+                    StatusScreen()
+                }
+
+                2 -> {
+                    CallScreen()
+                }
             }
 
         }
@@ -303,5 +308,18 @@ fun ParentScreen() {
                 tint = Color.Unspecified
             )
         }
+    }
+    ContextMenu(
+        menuList = when (pagerState.currentPage) {
+            0 -> menuListChat
+            1 -> menuListStatus
+            else -> { menuListCall }
+        },
+        isExpanded = expanded,
+        density = density,
+        parentHeight = heightOffset,
+        parentWidth = widthOffset,
+        onDismissRequest = { expanded = false }) {
+
     }
 }

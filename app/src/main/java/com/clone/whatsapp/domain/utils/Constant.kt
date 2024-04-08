@@ -39,4 +39,21 @@ object Constant {
         TabText(title = "CHATS"), TabText(title = "STATUS"),
         TabText(title = "CALLS")
     )
+
+    val menuListChat = listOf(
+        "New group",
+        "New broadcast",
+        "Linked devices",
+        "Starred messages",
+        "Payments",
+        "Settings"
+    )
+    val menuListStatus = listOf(
+        "Status privacy",
+        "Settings"
+    )
+    val menuListCall = listOf(
+        "Clear call log",
+        "Settings"
+    )
 }
