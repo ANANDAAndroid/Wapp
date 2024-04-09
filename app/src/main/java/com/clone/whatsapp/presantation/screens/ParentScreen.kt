@@ -58,9 +58,8 @@ import com.clone.whatsapp.presantation.SecondaryColor
 
 
 @OptIn(ExperimentalFoundationApi::class)
-@Preview(showSystemUi = true)
 @Composable
-fun ParentScreen() {
+fun ParentScreen( onMenuClick:(String)-> Unit) {
 
 
     var expanded by rememberSaveable { mutableStateOf(false) }
@@ -320,6 +319,6 @@ fun ParentScreen() {
         parentHeight = heightOffset,
         parentWidth = widthOffset,
         onDismissRequest = { expanded = false }) {
-
+        onMenuClick(it)
     }
 }

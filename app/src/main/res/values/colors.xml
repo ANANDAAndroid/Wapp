@@ -22,4 +22,12 @@
     <color name="tap_to_add_status_color">#7E898F</color>
     <color name="status_category_text_color">#515152</color>
     <color name="call_time_text_color">#85959F</color>
+    <color name="divider_color">#47353333</color>
+    <color name="multi_device_sub_text_color">#E61F2C34</color>
+    <color name="scan_qr_text_bg_color">#30C4C4C4</color>
+    <color name="scan_qr_text_color">#61000000</color>
+    <color name="scan_qr_bg_color">#F4F4F4</color>
+    <color name="no_payment_color">#687176</color>
+    <color name="payment_divider_color">#DADADA</color>
+    <color name="learn_more_text_color">#32ADE4</color>
 </resources>

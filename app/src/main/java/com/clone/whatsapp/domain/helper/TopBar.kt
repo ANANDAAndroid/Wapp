@@ -2,7 +2,6 @@ package com.clone.whatsapp.domain.helper
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -19,13 +18,12 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.clone.whatsapp.R
-import com.clone.whatsapp.presantation.PrimaryColor
 import com.clone.whatsapp.presantation.RobotoBold
 import com.clone.whatsapp.presantation.SecondaryColor
 
-@Preview(showBackground = true)
+
 @Composable
- fun TopBar(modifier: Modifier = Modifier,title:String="") {
+fun TopBar(modifier: Modifier = Modifier, title: String = "",onClick:()-> Unit) {
     Row(
         modifier = modifier
             .fillMaxWidth()
@@ -34,7 +32,9 @@ import com.clone.whatsapp.presantation.SecondaryColor
         verticalAlignment = Alignment.CenterVertically,
         horizontalArrangement = Arrangement.spacedBy(10.dp)
     ) {
-        IconButton(onClick = { }) {
+        IconButton(onClick = {
+            onClick()
+        }) {
             Icon(
                 painter = painterResource(id = R.drawable.back_arrow),
                 contentDescription = "",
