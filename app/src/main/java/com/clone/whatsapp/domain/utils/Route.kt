@@ -7,5 +7,7 @@ enum class Route {
     PARENT_SCREEN,
     STARRED_MESSAGE,
     LINKED_DEVICES,
-    SCAN_QR
+    SCAN_QR,
+    PAYMENTS_INTRO,
+    PAYMENT
 }

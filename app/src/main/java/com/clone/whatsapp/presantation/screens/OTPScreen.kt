@@ -1,6 +1,7 @@
 package com.clone.whatsapp.presantation.screens
 
 import android.content.Context
+import android.util.Log
 import androidx.compose.foundation.background
 import androidx.compose.foundation.gestures.detectTapGestures
 import androidx.compose.foundation.layout.Arrangement
@@ -27,6 +28,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalFocusManager
+import androidx.compose.ui.platform.LocalLifecycleOwner
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.AnnotatedString
@@ -38,6 +40,7 @@ import androidx.constraintlayout.compose.ConstraintLayout
 import androidx.constraintlayout.compose.Dimension
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.clone.whatsapp.R
+import com.clone.whatsapp.domain.helper.LifecycleEvent
 import com.clone.whatsapp.domain.helper.OTPView
 import com.clone.whatsapp.domain.utils.annotatedString
 import com.clone.whatsapp.presantation.RobotoMedium
@@ -54,6 +57,27 @@ fun OTPScreen(
     onBack: () -> Unit,
     navigate: () -> Unit
 ) {
+    val lifecycleOwner = LocalLifecycleOwner.current
+    LifecycleEvent(
+        lifecycleOwner = lifecycleOwner,
+        onCreate = {
+            Log.i("TEST", "OTPScreen: create")
+        },
+        onStart = {
+            Log.i("TEST", "OTPScreen: start")
+        },
+        onResume = {
+            Log.i("TEST", "OTPScreen: resume")
+        },
+        onPause = {
+            Log.i("TEST", "OTPScreen: pause")
+        },
+        onStop = {
+            Log.i("TEST", "OTPScreen: stop")
+        },
+        onDestroy = {
+            Log.i("TEST", "OTPScreen: destroy")
+        })
     val focusManager = LocalFocusManager.current
     val annotatedString = remember { mutableStateOf(AnnotatedString("")) }
     var showError by remember { mutableStateOf(false) }

@@ -1,5 +1,6 @@
 package com.clone.whatsapp.presantation.screens
 
+import androidx.activity.compose.BackHandler
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -8,14 +9,11 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.wrapContentSize
-import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.ExtendedFloatingActionButton
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
-import androidx.compose.material3.SmallFloatingActionButton
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -40,15 +38,15 @@ import com.clone.whatsapp.presantation.RobotoRegular
 import com.clone.whatsapp.presantation.RobotoSemiBold
 import com.clone.whatsapp.presantation.SecondaryColor
 
-@Preview(showSystemUi = true)
+
 @Composable
-fun Payments() {
+fun Payments(onBack: () -> Unit) {
     ConstraintLayout(modifier = Modifier.fillMaxSize()) {
         val (topBar, history, page, text, divider1, method, column, divider2, ask, bhim, action) = createRefs()
         TopBar(title = "Payments", modifier = Modifier.constrainAs(topBar) {
             top.linkTo(parent.top)
         }) {
-
+            onBack()
         }
 
         Text(text = "History", modifier = Modifier.constrainAs(history) {
@@ -129,6 +127,9 @@ fun Payments() {
             )
             Text(text = "NEW PAYMENT", color = Color.White, fontFamily = RobotoMedium)
         }
+    }
+    BackHandler {
+        onBack()
     }
 }
 

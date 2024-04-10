@@ -1,6 +1,7 @@
 package com.clone.whatsapp.presantation.screens
 
 import android.content.Context
+import android.util.Log
 import android.widget.Toast
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement
@@ -20,6 +21,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.platform.LocalLifecycleOwner
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.SpanStyle
@@ -34,6 +36,7 @@ import androidx.constraintlayout.compose.ConstraintLayout
 import androidx.constraintlayout.compose.Dimension
 import androidx.navigation.NavController
 import com.clone.whatsapp.R
+import com.clone.whatsapp.domain.helper.LifecycleEvent
 import com.clone.whatsapp.domain.utils.Route
 import com.clone.whatsapp.presantation.RobotoBold
 import com.clone.whatsapp.presantation.RobotoRegular
@@ -42,6 +45,27 @@ import com.clone.whatsapp.presantation.TypographyForButton
 
 @Composable
 fun WelcomeScreen(context: Context = LocalContext.current, navigate: () -> Unit) {
+    val lifecycleOwner= LocalLifecycleOwner.current
+    LifecycleEvent(
+        lifecycleOwner = lifecycleOwner,
+        onCreate = {
+            Log.i("TEST", "WelcomeScreen: create")
+        },
+        onStart = {
+            Log.i("TEST", "WelcomeScreen: start")
+        },
+        onResume = {
+            Log.i("TEST", "WelcomeScreen: resume")
+        },
+        onPause = {
+            Log.i("TEST", "WelcomeScreen: pause")
+        },
+        onStop = {
+            Log.i("TEST", "WelcomeScreen: stop")
+        },
+        onDestroy = {
+            Log.i("TEST", "WelcomeScreen: destroy")
+        })
     ConstraintLayout(modifier = Modifier.fillMaxSize()) {
         val (heading, image, spacer1, spacer2, spanText, button, footer) = createRefs()
         val createGuidelineFromTop = createGuidelineFromTop(0.07f)

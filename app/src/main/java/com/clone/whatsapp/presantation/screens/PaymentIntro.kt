@@ -17,9 +17,10 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.PlatformTextStyle
+import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.constraintlayout.compose.ConstraintLayout
@@ -30,11 +31,11 @@ import com.clone.whatsapp.presantation.RobotoRegular
 import com.clone.whatsapp.presantation.RobotoSemiBold
 import com.clone.whatsapp.presantation.SecondaryColor
 
-@Preview(showSystemUi = true)
+
 @Composable
- fun PaymentIntro() {
+fun PaymentIntro(onClick: () -> Unit) {
     ConstraintLayout(modifier = Modifier.fillMaxSize()) {
-        val (heading, image, text, row,bhim,button) = createRefs()
+        val (heading, image, text, row, bhim, button) = createRefs()
         Text(text = "Payments",
             textAlign = TextAlign.Center,
             fontFamily = RobotoBold,
@@ -51,12 +52,12 @@ import com.clone.whatsapp.presantation.SecondaryColor
             contentDescription = "payment",
             modifier = Modifier
                 .fillMaxWidth()
-                .height(210.dp)
+                .height(190.dp)
                 .constrainAs(image) {
                     top.linkTo(heading.bottom, margin = 20.dp)
                 }
         )
-        Text(text = "Send and recieve money securely, right\nwhere you chat",
+        Text(text = "Send and recieve money securely, right where you chat",
             textAlign = TextAlign.Center,
             fontFamily = RobotoMedium,
             fontSize = 18.sp,
@@ -64,6 +65,7 @@ import com.clone.whatsapp.presantation.SecondaryColor
             color = Color.Black,
             modifier = Modifier
                 .fillMaxWidth()
+                .padding(horizontal = 30.dp)
                 .constrainAs(text) {
                     top.linkTo(image.bottom, margin = 15.dp)
                 })
@@ -71,6 +73,7 @@ import com.clone.whatsapp.presantation.SecondaryColor
         Row(
             modifier = Modifier
                 .fillMaxWidth()
+                .padding(horizontal = 30.dp)
                 .constrainAs(row) {
                     top.linkTo(text.bottom, margin = 50.dp)
                 },
@@ -84,27 +87,33 @@ import com.clone.whatsapp.presantation.SecondaryColor
             )
 
             Text(
-                text = "Crores of people are already using payments on\nwhatsApp.",
+                text = "Crores of people are already using payments on whatsApp.",
                 fontFamily = RobotoRegular,
                 color = Color.Black,
                 fontSize = 13.sp,
-                modifier = Modifier.padding(start = 10.dp)
+                modifier = Modifier.padding(start = 10.dp),
+                style = TextStyle(platformStyle = PlatformTextStyle(includeFontPadding = false))
             )
         }
         Image(
             painter = painterResource(id = R.drawable.image_bhim_upi),
-            contentDescription = "bhim", modifier = Modifier.fillMaxWidth().height(40.dp).constrainAs(bhim){
-                bottom.linkTo(parent.bottom)
-            }
+            contentDescription = "bhim",
+            modifier = Modifier
+                .fillMaxWidth()
+                .height(40.dp)
+                .constrainAs(bhim) {
+                    bottom.linkTo(parent.bottom)
+                }
         )
         Button(
-            onClick = { },
+            onClick = { onClick() },
             shape = RoundedCornerShape(2.dp),
             colors = ButtonDefaults.buttonColors()
                 .copy(containerColor = SecondaryColor, contentColor = Color.White),
-            modifier = Modifier.constrainAs(button){
-                bottom.linkTo(bhim.top)
-            }
+            modifier = Modifier
+                .constrainAs(button) {
+                    bottom.linkTo(bhim.top)
+                }
                 .fillMaxWidth()
                 .padding(horizontal = 30.dp)
                 .padding(bottom = 5.dp)

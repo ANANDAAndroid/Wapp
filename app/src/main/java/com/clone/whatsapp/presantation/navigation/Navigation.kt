@@ -17,6 +17,8 @@ import com.clone.whatsapp.presantation.activity.MainActivity
 import com.clone.whatsapp.presantation.screens.LinkedDevice
 import com.clone.whatsapp.presantation.screens.OTPScreen
 import com.clone.whatsapp.presantation.screens.ParentScreen
+import com.clone.whatsapp.presantation.screens.PaymentIntro
+import com.clone.whatsapp.presantation.screens.Payments
 import com.clone.whatsapp.presantation.screens.PhoneNumberScreen
 import com.clone.whatsapp.presantation.screens.ScanQrCode
 import com.clone.whatsapp.presantation.screens.StarredMessage
@@ -116,7 +118,7 @@ fun MainNavigation() {
                         menuListChat[1] -> {}
                         menuListChat[2] -> navController.navigate(route = "linked devices navigation")
                         menuListChat[3] -> navController.navigate(route = Route.STARRED_MESSAGE.name)
-                        menuListChat[4] -> {}
+                        menuListChat[4] -> navController.navigate(route = "payment navigation")
                         menuListChat[5] -> {}
                     }
                 }
@@ -142,6 +144,22 @@ fun MainNavigation() {
             composable(route = Route.SCAN_QR.name) {
                 ScanQrCode(onBack = {
                     navController.popBackStack()
+                })
+            }
+
+        }
+        navigation(
+            startDestination = Route.PAYMENTS_INTRO.name,
+            route = "payment navigation"
+        ) {
+            composable(route = Route.PAYMENTS_INTRO.name) {
+                PaymentIntro{
+                    navController.navigate(route=Route.PAYMENT.name)
+                }
+            }
+            composable(route = Route.PAYMENT.name) {
+                Payments(onBack = {
+                    navController.popBackStack(route = Route.PAYMENTS_INTRO.name,inclusive = true)
                 })
             }
 

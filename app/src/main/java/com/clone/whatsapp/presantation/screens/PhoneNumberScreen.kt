@@ -1,6 +1,7 @@
 package com.clone.whatsapp.presantation.screens
 
 import android.content.Context
+import android.util.Log
 import android.widget.Toast
 import androidx.compose.foundation.background
 import androidx.compose.foundation.gestures.detectTapGestures
@@ -22,6 +23,7 @@ import androidx.compose.material3.IconButton
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.saveable.rememberSaveable
@@ -31,6 +33,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalFocusManager
+import androidx.compose.ui.platform.LocalLifecycleOwner
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.text.SpanStyle
 import androidx.compose.ui.text.TextStyle
@@ -48,6 +51,7 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.clone.whatsapp.R
 import com.clone.whatsapp.domain.helper.CustomVisualTransformation
 import com.clone.whatsapp.domain.helper.Dropdown
+import com.clone.whatsapp.domain.helper.LifecycleEvent
 import com.clone.whatsapp.domain.helper.Loader
 import com.clone.whatsapp.domain.helper.maskPhoneNumber
 import com.clone.whatsapp.domain.utils.Constant.countryList
@@ -60,9 +64,33 @@ import com.clone.whatsapp.presantation.viewmodels.PhoneNumberScreenViewModel
 @Composable
 fun PhoneNumberScreen(
     context: Context = LocalContext.current,
-    viewModel: PhoneNumberScreenViewModel = hiltViewModel(),
     navigate: (String) -> Unit
 ) {
+
+   val viewModel: PhoneNumberScreenViewModel = hiltViewModel()
+    val lifecycleOwner= LocalLifecycleOwner.current
+    val result= viewModel.abc.collectAsState(initial = 0)
+    println("collect ${result.value}")
+    LifecycleEvent(
+        lifecycleOwner = lifecycleOwner,
+        onCreate = {
+            Log.i("TEST", "PhoneNumberScreen: create")
+        },
+        onStart = {
+            Log.i("TEST", "PhoneNumberScreen: start")
+        },
+        onResume = {
+            Log.i("TEST", "PhoneNumberScreen: resume")
+        },
+        onPause = {
+            Log.i("TEST", "PhoneNumberScreen: pause")
+        },
+        onStop = {
+            Log.i("TEST", "PhoneNumberScreen: stop")
+        },
+        onDestroy = {
+            Log.i("TEST", "PhoneNumberScreen: destroy")
+        })
     val countryList by rememberSaveable { mutableStateOf(countryList) }
     var phoneNUmber by rememberSaveable { mutableStateOf("") }
     var countryCode by rememberSaveable { mutableStateOf(countryList[0].code) }

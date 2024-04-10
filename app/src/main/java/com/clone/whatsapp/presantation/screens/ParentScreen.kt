@@ -42,7 +42,6 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.PlatformTextStyle
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.constraintlayout.compose.ConstraintLayout
@@ -59,7 +58,7 @@ import com.clone.whatsapp.presantation.SecondaryColor
 
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
-fun ParentScreen( onMenuClick:(String)-> Unit) {
+fun ParentScreen(onMenuClick: (String) -> Unit) {
 
 
     var expanded by rememberSaveable { mutableStateOf(false) }
@@ -280,18 +279,10 @@ fun ParentScreen( onMenuClick:(String)-> Unit) {
             }) {
 
             when (it) {
-                0 -> {
+                0 -> ChatScreen()
+                1 -> StatusScreen()
+                2 -> CallScreen()
 
-                    ChatScreen()
-                }
-
-                1 -> {
-                    StatusScreen()
-                }
-
-                2 -> {
-                    CallScreen()
-                }
             }
 
         }
@@ -312,7 +303,9 @@ fun ParentScreen( onMenuClick:(String)-> Unit) {
         menuList = when (pagerState.currentPage) {
             0 -> menuListChat
             1 -> menuListStatus
-            else -> { menuListCall }
+            else -> {
+                menuListCall
+            }
         },
         isExpanded = expanded,
         density = density,
