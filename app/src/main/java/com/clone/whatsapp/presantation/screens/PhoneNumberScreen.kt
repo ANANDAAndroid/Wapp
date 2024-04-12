@@ -63,14 +63,11 @@ import com.clone.whatsapp.presantation.viewmodels.PhoneNumberScreenViewModel
 
 @Composable
 fun PhoneNumberScreen(
+    viewModel: PhoneNumberScreenViewModel = hiltViewModel(),
     context: Context = LocalContext.current,
     navigate: (String) -> Unit
 ) {
-
-   val viewModel: PhoneNumberScreenViewModel = hiltViewModel()
-    val lifecycleOwner= LocalLifecycleOwner.current
-    val result= viewModel.abc.collectAsState(initial = 0)
-    println("collect ${result.value}")
+    val lifecycleOwner = LocalLifecycleOwner.current
     LifecycleEvent(
         lifecycleOwner = lifecycleOwner,
         onCreate = {
