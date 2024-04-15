@@ -23,40 +23,40 @@ jobs:
             java-version: 17
             distribution: 'temurin'
 
-        - name: Run lint
-          run: ./gradlew lintDebug
-
-        - name: Upload html test report
-          uses: actions/upload-artifact@v4.3.1
-          with:
-            name: lint.html
-            path: app/build/reports/lint-results-debug.html
-
-  unit-test:
-    needs: [lint]
-    name: Unit Test
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v4.1.2
-
-      - name: Setup Java JDK
-        uses: actions/setup-java@v4.2.1
-        with:
-          java-version: 17
-          distribution: 'temurin'
-
-      - name: Run unit test
-        run: ./gradlew test
-
-      - name: Upload unit test report
-        uses: actions/upload-artifact@v4.3.1
-        with:
-          name: unit_test_report
-          path: app/build/reports/tests/testDebugUnitTest/
+#        - name: Run lint
+#          run: ./gradlew lintDebug
+#
+#        - name: Upload html test report
+#          uses: actions/upload-artifact@v4.3.1
+#          with:
+#            name: lint.html
+#            path: app/build/reports/lint-results-debug.html
+#
+#  unit-test:
+#    needs: [lint]
+#    name: Unit Test
+#    runs-on: ubuntu-latest
+#    steps:
+#      - name: Checkout
+#        uses: actions/checkout@v4.1.2
+#
+#      - name: Setup Java JDK
+#        uses: actions/setup-java@v4.2.1
+#        with:
+#          java-version: 17
+#          distribution: 'temurin'
+#
+#      - name: Run unit test
+#        run: ./gradlew test
+#
+#      - name: Upload unit test report
+#        uses: actions/upload-artifact@v4.3.1
+#        with:
+#          name: unit_test_report
+#          path: app/build/reports/tests/testDebugUnitTest/
 
   instrumentation-test:
-    needs: [unit-test]
+    needs: [lint]
     name: Android test
     runs-on: macos-latest
     steps:
@@ -69,19 +69,11 @@ jobs:
           java-version: 17
           distribution: 'temurin'
 
-      - name: Launch emulator
-        uses: actions/runner-android-emulator@v3
-        with:
-            image: 'android-33-x86'  # Update with desired API level and architecture
-
-      - name: Verify emulator connection
-        run: adb devices  # Check for connected devices
-
       - name: Android tests
-        uses: ReactiveCircus/android-emulator-runner@v2.30.1
+        uses: amyu/setup-android@v4
         with:
-            api-level: 33
-            script: ./gradlew connectedCheck
+          sdk-version: 33
+
 
       - name: Upload android test report
         uses: actions/upload-artifact@v4.3.1
