@@ -55,4 +55,30 @@ jobs:
           name: unit_test_report
           path: app/build/reports/tests/testDebugUnitTest/
 
+  instrumentation-test:
+    needs: [unit-test]
+    name: Android test
+    runs-on: macos-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4.1.2
+
+      - name: Setup Java JDK
+        uses: actions/setup-java@v4.2.1
+        with:
+          java-version: 17
+          distribution: 'temurin'
+
+      - name: Ui tests
+        uses: reactivecircus/android-emulator-runner@v2
+        with:
+            api-level: 33
+            script: ./gradlew connectedCheck
+
+      - name: Upload unit test report
+        uses: actions/upload-artifact@v4.3.1
+        with:
+          name: unit_test_report
+          path: app/build/reports/androidTests/connected/
+
 
