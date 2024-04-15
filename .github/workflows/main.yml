@@ -10,17 +10,20 @@ on:
 
 
 jobs:
-  build:
-    name: Build
+  lint:
+    name: Lint Check
     runs-on: ubuntu-latest
     steps:
         - name: Checkout
           uses: actions/checkout@v4.1.2
 
-        - name: Run a one line script
-          run: echo Hello, world
+        - name: Run lint
+          run: ./gradlew lintDebug
 
-        - name: Run a multiline script
-          run:
-              echo add other section to build
-              echo test and deploy your project
+        - name: upload html test report
+          run: actions/upload-artifact@v4.3.1
+          with:
+            name: index.html
+            path: app/build/reports/lint-results-debug.html
+
+
