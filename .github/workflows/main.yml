@@ -72,9 +72,8 @@ jobs:
       - name: Android tests
         uses: ReactiveCircus/android-emulator-runner@v2.30.1
         with:
-            api-level: 33
+            api-level: 29
             script: ./gradlew connectedCheck
-            pre-emulator-launch-script: ./adjust-emulator-configs.sh
 
       - name: Upload android test report
         uses: actions/upload-artifact@v4.3.1
