@@ -69,6 +69,14 @@ jobs:
           java-version: 17
           distribution: 'temurin'
 
+      - name: Launch emulator
+        uses: actions/runner-android-emulator@v3
+        with:
+            image: 'android-33-x86'  # Update with desired API level and architecture
+
+      - name: Verify emulator connection
+        run: adb devices  # Check for connected devices
+
       - name: Android tests
         uses: ReactiveCircus/android-emulator-runner@v2.30.1
         with:
