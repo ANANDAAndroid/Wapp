@@ -107,7 +107,7 @@ jobs:
       - name: Upload build artifact
         uses: actions/upload-artifact@v4.3.1
         with:
-          name: wapp.apk
+          name: wapp.zip
           path: app/build/outputs/apk/debug/app-debug.apk
 
 
