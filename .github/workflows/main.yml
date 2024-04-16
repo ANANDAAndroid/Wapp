@@ -102,7 +102,7 @@ jobs:
           distribution: 'temurin'
 
       - name: Build Android App
-        uses: vukan-markovic/Github-Android-Action@1.2
+        run: ./gradlew assembleRelease
 
       - name: Upload unit test report
         uses: actions/upload-artifact@v4.3.1
